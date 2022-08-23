@@ -1,4 +1,4 @@
-# Enhanced-2FA-Security-Project
+# Banking-Enhanced-2FA-Security-Project
 
 ## INSTRUCTIONS
 
