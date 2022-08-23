@@ -1,0 +1,31 @@
+import mysql.connector as mysql
+from Crypto.Cipher import AES
+import base64,random,string,os,base64,datetime
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+
+passw = "YOUIOP"
+password = passw.encode() #Encoding to utf-8/bytes format
+
+    #a salt is random data that is used as an additional input to a one-way function that hashes data, a password or passphrase
+    # A salt is added to the hashing process to force their uniqueness, increase their complexity without increasing user requirements, and to mitigate password attacks like hash tables
+
+salt = b"\xb9\x1f|}'S\xa1\x96\xeb\x154\x04\x88\xf3\xdf\x05" #This is just randomly generated and in bytes format
+    
+    #PBKDF2 is Password based key derivation function 2
+    #We are basically creating a HASH of the user password to use as the KEK, the final length is 32 bytes
+kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=24,
+            salt=salt,
+            iterations=100000,
+            backend=default_backend())
+
+print(kdf)
+
+key = base64.urlsafe_b64encode(kdf.derive(password))
+
+print(key)
+print(len(key))
